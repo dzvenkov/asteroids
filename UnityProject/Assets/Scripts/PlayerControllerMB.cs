@@ -24,12 +24,13 @@ namespace Asteroids
             {
                 if (_input.Thrust)
                 {
-                    _motion.ApplyForce(_settings.BaseThrust*Time.fixedDeltaTime*_motion.forward);
+                    float maxSpeedT = 1f - _motion.speed / _settings.MaxSpeed;//thrust drops to zero as we get closer to max speed
+                    _motion.ApplyForce(maxSpeedT*_settings.BaseThrust*Time.fixedDeltaTime*_motion.forward);
                 }
 
                 if (_input.Rotation != 0f)
                 {
-                    _motion.Rotate(_settings.BaseRotation*Time.fixedDeltaTime*_input.Rotation);
+                    _motion.Rotate(_settings.BaseRotationRate*Time.fixedDeltaTime*_input.Rotation);
                 }
             }
         }

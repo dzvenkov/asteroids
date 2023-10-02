@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   Settings:
-    BaseRotation: 180
+    BaseRotationRate: 270
     BaseThrust: 100
+    MaxSpeed: 30

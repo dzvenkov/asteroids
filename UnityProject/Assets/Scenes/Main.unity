@@ -154,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameSettings: {fileID: 11400000, guid: 01415a753376b4b4992b9f627fcc9b7f, type: 2}
   PlayerController: {fileID: 194200960}
+  PlayerEntityMotion: {fileID: 194200958}
+  MainCamera: {fileID: 330585545}
 --- !u!4 &103651117
 Transform:
   m_ObjectHideFlags: 0
