@@ -1,9 +1,7 @@
-using System;
 using UnityEngine;
 
 namespace Asteroids
 {
-
     public class CompositionMB : MonoBehaviour
     {
         public GameSettingsHolderSO GameSettings;
@@ -20,6 +18,8 @@ namespace Asteroids
             PlayerController.Init(inputState, 
                 PlayerEntityMotion,
                 this.GameSettings.Settings);
+            IAsteroidFactory asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsFactorySettings);
+            asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);
         }
 
         Rect CalculateBorders(Camera camera)

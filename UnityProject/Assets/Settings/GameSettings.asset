@@ -16,3 +16,9 @@ MonoBehaviour:
     BaseRotationRate: 270
     BaseThrust: 100
     MaxSpeed: 30
+    AsteroidsFactorySettings:
+      xRange: {x: 0.5, y: 2}
+      yRange: {x: 0.15, y: 0.5}
+      xRotRange: {x: -5, y: 5}
+      yRotRange: {x: -25, y: 25, z: 0}
+      Compactness: 0.25

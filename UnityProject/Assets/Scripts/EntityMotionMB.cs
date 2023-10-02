@@ -26,6 +26,7 @@ public class EntityMotionMB : MonoBehaviour, IEntityMotion
     
     public void Rotate(float degrees)
     {
+        if (Mathf.Abs(degrees) > 0.0001f) _cachedRigidbody.angularVelocity = Vector3.zero;
         _cachedRigidbody.rotation *= Quaternion.Euler(0, degrees, 0);
     }
 
