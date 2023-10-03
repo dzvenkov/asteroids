@@ -1,3 +1,4 @@
+using System;
 using Asteroids;
 using TMPro;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class HUDViewMB : MonoBehaviour
     public GameObject HeartsContainer;
     public GameObject HeartsPrototype;
     public Button NewGameButton;
+    public Slider ShieldSlider;
 
     private IMatchState _matchState;
     // Start is called before the first frame update
@@ -46,6 +48,15 @@ public class HUDViewMB : MonoBehaviour
         for (int i = 0; i < HeartsContainer.transform.childCount -_matchState.Hearts; i++)//delete excess;
         {
             Destroy(HeartsContainer.transform.GetChild(HeartsContainer.transform.childCount - 1).gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        ShieldSlider.gameObject.SetActive(_matchState.ShieldNormalizedDurationLeft > 0.0001f);
+        if (_matchState.ShieldNormalizedDurationLeft > 0.0001f)
+        {
+            ShieldSlider.value = _matchState.ShieldNormalizedDurationLeft;
         }
     }
 }

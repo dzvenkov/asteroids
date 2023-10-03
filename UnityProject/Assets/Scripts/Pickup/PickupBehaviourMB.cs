@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Asteroids
@@ -14,7 +13,7 @@ namespace Asteroids
         private Transform _cachedTransform;
         private Rect _borderRect;
 
-        public PickupType type { get; }
+        public PickupType type => pickupType;
 
         public void Init(IPickupFactory parentFactory, Rect borderRect)
         {

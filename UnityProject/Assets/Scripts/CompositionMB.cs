@@ -74,10 +74,6 @@ namespace Asteroids
                     _asteroidsFactory.SplitAsteroid(asteroid);
                 }
             }
-            if (Keyboard.current.gKey.wasPressedThisFrame)
-            {
-                _matchState.CheatAddHealth();
-            }
         }
 
         static void CreateAndSetupOverlayCameras(Camera mainCamera, Rect borderRect)

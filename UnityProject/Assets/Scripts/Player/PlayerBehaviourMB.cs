@@ -8,6 +8,7 @@ public interface IPlayerEntity
     void Rotate(float degrees);
     void ApplyForce(Vector2 direction);
     void PlayDeathSequence(bool final);
+    void SetShieldVFX(bool enabled);
 }
 
 [RequireComponent(typeof(Rigidbody))]
@@ -15,6 +16,7 @@ public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity
 {
     public GameObject ModelRoot;
     public GameObject Corpse;
+    public GameObject ShieldRoot;
     
     private Transform _cachedTransform;
     private Rigidbody _cachedRigidbody;
@@ -61,6 +63,11 @@ public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity
             Destroy(corpse);//leave last corpse hanging around for dramatic effect
             ModelRoot.SetActive(true);
         }
+    }
+
+    public void SetShieldVFX(bool enabled)
+    {
+        ShieldRoot.SetActive(enabled);
     }
 
     private void Update()

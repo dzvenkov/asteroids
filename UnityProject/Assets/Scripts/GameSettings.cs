@@ -10,6 +10,7 @@ namespace Asteroids
         public float BaseThrust = 100f;
         public float MaxSpeed = 30f;
         public int StartHearts = 3;
+        public float ShieldDurationSec = 5;
         public AsteroidSettings AsteroidsSettings;
         public BulletSettings BulletSettings;
     }

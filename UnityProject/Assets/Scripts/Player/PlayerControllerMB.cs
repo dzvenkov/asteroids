@@ -46,6 +46,8 @@ namespace Asteroids
                     _bulletFactory.Shoot();
                     _lastShotTime = Time.time;
                 }
+                
+                _player.SetShieldVFX(_matchState.ShieldNormalizedDurationLeft > 0.0001f);
             }
         }
         
@@ -53,14 +55,21 @@ namespace Asteroids
         {
             if (_matchState.State == IMatchState.Status.InProgress)
             {
-                _matchState.RegisterPlayerDeath();
-                _player.PlayDeathSequence(_matchState.State == IMatchState.Status.Lose);
+                if (_matchState.ShieldNormalizedDurationLeft < 0.0001f)
+                {
+                    _matchState.RegisterPlayerDeath();
+                    _player.PlayDeathSequence(_matchState.State == IMatchState.Status.Lose);
+                }
+                else
+                {
+                    asteroid.DealDamage();
+                }
             }
         }
 
         public bool HandleCollisionWithPickup(IPickupEntity pickupEntity)
         {
-            Debug.Log(pickupEntity.type);
+            _matchState.RegisterPickupCollection(pickupEntity.type);
             return true;
         }
     }

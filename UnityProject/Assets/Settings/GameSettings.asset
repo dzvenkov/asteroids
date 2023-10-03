@@ -15,8 +15,9 @@ MonoBehaviour:
   Settings:
     BaseRotationRate: 270
     BaseThrust: 100
-    MaxSpeed: 30
+    MaxSpeed: 25
     StartHearts: 3
+    ShieldDurationSec: 5
     AsteroidsSettings:
       xRange: {x: 0.4, y: 1.5}
       yRange: {x: 0.15, y: 0.5}
