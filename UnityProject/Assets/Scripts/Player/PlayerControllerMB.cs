@@ -11,6 +11,8 @@ namespace Asteroids
         private IPlayerEntity _motion;
         private GameSettings _settings;
         private IBulletFactory _bulletFactory;
+
+        private float _lastShotTime = 0; 
         
         public void Init(IInputState input, IPlayerEntity motion, IBulletFactory bulletFactory, GameSettings settings)
         {
@@ -35,9 +37,10 @@ namespace Asteroids
                     _motion.Rotate(_settings.BaseRotationRate*Time.fixedDeltaTime*_input.Rotation);
                 }
 
-                if (_input.Fire)
+                if (_input.Fire && Time.time > _lastShotTime + _settings.BulletSettings.minShotInterval)
                 {
                     _bulletFactory.Shoot();
+                    _lastShotTime = Time.time;
                 }
             }
         }

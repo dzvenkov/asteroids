@@ -28,3 +28,4 @@ MonoBehaviour:
     BulletSettings:
       poolSize: 100
       shotSpeed: 30
+      minShotInterval: 0.25

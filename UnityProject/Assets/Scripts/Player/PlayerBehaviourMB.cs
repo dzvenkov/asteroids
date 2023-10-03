@@ -1,3 +1,4 @@
+using Asteroids;
 using UnityEngine;
 
 public interface IPlayerEntity
@@ -9,7 +10,7 @@ public interface IPlayerEntity
 }
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity
+public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity, IAsteroidCollisionHandler
 {
     private Transform _cachedTransform;
     private Rigidbody _cachedRigidbody;
@@ -35,7 +36,7 @@ public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity
         _cachedRigidbody.AddForce(new Vector3(direction.x, 0, direction.y), ForceMode.VelocityChange);
     }
 
-    public void Update()
+    private void Update()
     {
         if (_cachedTransform != null)
         {
@@ -46,5 +47,10 @@ public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity
             if (pos.z < _borderRect.yMin) pos.z = _borderRect.yMax;
             _cachedTransform.position = pos;
         }
+    }
+
+    public void HandleCollisionWithAsteroid(IAsteroidEntity asteroid)
+    {
+        Debug.LogWarning("Player collided");
     }
 }

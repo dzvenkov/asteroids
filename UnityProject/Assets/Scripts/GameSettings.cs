@@ -35,5 +35,6 @@ namespace Asteroids
     {
         public int poolSize = 100;
         public float shotSpeed = 5;
+        public float minShotInterval = 1f;
     }
 }

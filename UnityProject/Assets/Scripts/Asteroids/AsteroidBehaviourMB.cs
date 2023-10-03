@@ -5,6 +5,7 @@ namespace Asteroids
     public interface IAsteroidEntity
     {
         int level { get; }
+        void DealDamage();
     }
     public class AsteroidBehaviourMB : MonoBehaviour, IAsteroidEntity
     {
@@ -16,12 +17,14 @@ namespace Asteroids
         private Transform _cachedTransform;
         private float _targetRotation;
         private Vector3 _targetVelocity;
+        private IAsteroidFactory _parentFactory;
 
         public int level { get; private set; }
-        public void Init(int level, Rect borderRect)
+        public void Init(int level, Rect borderRect, IAsteroidFactory parentFactory)
         {
             this.level = level;
             _borderRect = borderRect;
+            _parentFactory = parentFactory;
             _cachedRigidbody = GetComponent<Rigidbody>();
             _cachedTransform = GetComponent<Transform>();
         }
@@ -30,6 +33,11 @@ namespace Asteroids
         {
             _targetRotation = rotation;
             _targetVelocity = velocity;
+        }
+
+        public void DealDamage()
+        {
+            _parentFactory.SplitAsteroid(this);
         }
         
         private void FixedUpdate()
@@ -41,8 +49,15 @@ namespace Asteroids
                     new Vector3(0, _targetRotation, 0), 0.01f);
             }
         }
+        
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!enabled) return;
+            var handler = collision.gameObject.GetComponent<IAsteroidCollisionHandler>();
+            handler?.HandleCollisionWithAsteroid(this);
+        }
 
-        public void Update()
+        private void Update()
         {
             if (_cachedTransform != null)//this actually duplicates the warp functionality at player so to be extracted
             {

@@ -95,7 +95,7 @@ namespace Asteroids
                     Random.Range(_settings.xRotRange.x, _settings.xRotRange.y));
             }
 
-            result.Init(level, _borderRect);
+            result.Init(level, _borderRect, this);
             result.name = $"A_{level}_{Mathf.Abs(result.GetHashCode())}";
             result.enabled = false;
             return result;

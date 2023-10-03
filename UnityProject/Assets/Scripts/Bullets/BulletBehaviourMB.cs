@@ -1,8 +1,8 @@
-using System;
+using Asteroids;
 using UnityEngine;
 
 public interface IBulletEntity { }//just a handle type
-public class BulletBehaviourMB : MonoBehaviour, IBulletEntity
+public class BulletBehaviourMB : MonoBehaviour, IBulletEntity, IAsteroidCollisionHandler
 {
     public Rigidbody rigidbody; //cached for speed
 
@@ -34,5 +34,11 @@ public class BulletBehaviourMB : MonoBehaviour, IBulletEntity
                 _parentFactory.Kill(this);
             }
         }
+    }
+
+    public void HandleCollisionWithAsteroid(IAsteroidEntity asteroid)
+    {
+        asteroid.DealDamage();
+        _parentFactory.Kill(this);//my shift is over;
     }
 }
