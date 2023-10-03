@@ -8,10 +8,10 @@ namespace Asteroids
     public class PlayerControllerMB : MonoBehaviour
     {
         private IInputState _input;
-        private IEntityMotion _motion;
+        private IPlayerBehaviour _motion;
         private GameSettings _settings;
         
-        public void Init(IInputState input, IEntityMotion motion, GameSettings settings)
+        public void Init(IInputState input, IPlayerBehaviour motion, GameSettings settings)
         {
             _input = input;
             _motion = motion;

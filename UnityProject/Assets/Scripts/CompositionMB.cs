@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
 namespace Asteroids
@@ -7,26 +9,43 @@ namespace Asteroids
     {
         public GameSettingsHolderSO GameSettings;
         public PlayerControllerMB PlayerController;
-        public EntityMotionMB PlayerEntityMotion;
+        public PlayerBehaviourMB PlayerBehaviour;
         public Camera MainCamera;
 
+
+        private IAsteroidFactory _asteroidsFactory;
         void Awake()
         {
+            //This is the App's composition root
             Rect borderRect = CalculateBorders(MainCamera);
             Debug.Log(borderRect);
             IInputState inputState = new InputState();
-            PlayerEntityMotion.Init(borderRect);
+            
+            //1. Player
+            PlayerBehaviour.Init(borderRect);
             PlayerController.Init(inputState, 
-                PlayerEntityMotion,
+                PlayerBehaviour,
                 this.GameSettings.Settings);
-            IAsteroidFactory asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsFactorySettings, borderRect);
-            asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);
-
+            //2. Asteroids
+            _asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsSettings, borderRect);
+            _asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);//test
             CreateAndSetupOverlayCameras(MainCamera, borderRect);   
+        }
+
+        public void Update()
+        {
+            if (Keyboard.current.fKey.wasPressedThisFrame)
+            {
+                foreach (var asteroid in _asteroidsFactory.Asteroids.ToList())
+                {
+                    _asteroidsFactory.SplitAsteroid(asteroid);
+                }
+            }
         }
 
         static void CreateAndSetupOverlayCameras(Camera mainCamera, Rect borderRect)
         {
+            //URP overlay cameras are used to 
             UniversalAdditionalCameraData mainCameraData = mainCamera.GetComponent<UniversalAdditionalCameraData>();
             
             Camera overlayCamera;
@@ -40,6 +59,7 @@ namespace Asteroids
                      })
             {
                 overlayCamera = Instantiate(mainCamera);
+                Destroy(overlayCamera.GetComponent<AudioListener>());
                 overlayCamera.transform.position += offset;
                 overlayCameraData = overlayCamera.GetComponent<UniversalAdditionalCameraData>();
                 overlayCameraData.renderPostProcessing = false;
@@ -47,7 +67,6 @@ namespace Asteroids
                 mainCameraData.cameraStack.Add(overlayCamera);
             }            
         }
-        
         
         static Rect CalculateBorders(Camera camera)
         {

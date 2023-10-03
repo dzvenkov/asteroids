@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IEntityMotion
+public interface IPlayerBehaviour
 {
     Vector2 forward { get; }
     float speed { get; }
@@ -9,7 +9,7 @@ public interface IEntityMotion
 }
 
 [RequireComponent(typeof(Rigidbody))]
-public class EntityMotionMB : MonoBehaviour, IEntityMotion
+public class PlayerBehaviourMB : MonoBehaviour, IPlayerBehaviour
 {
     private Transform _cachedTransform;
     private Rigidbody _cachedRigidbody;

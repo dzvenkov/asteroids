@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameSettings: {fileID: 11400000, guid: 01415a753376b4b4992b9f627fcc9b7f, type: 2}
   PlayerController: {fileID: 194200960}
-  PlayerEntityMotion: {fileID: 194200958}
+  PlayerBehaviour: {fileID: 194200958}
   MainCamera: {fileID: 330585545}
 --- !u!4 &103651117
 Transform:
@@ -661,7 +661,7 @@ Transform:
   m_GameObject: {fileID: 832575517}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -680,7 +680,7 @@ GameObject:
   - component: {fileID: 1092148584}
   - component: {fileID: 1092148583}
   m_Layer: 0
-  m_Name: Box (1)
+  m_Name: Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
