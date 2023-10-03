@@ -12,20 +12,23 @@ namespace Asteroids
         private IPlayerEntity _motion;
         private GameSettings _settings;
         private IBulletFactory _bulletFactory;
+        private MatchState _matchState;
 
         private float _lastShotTime = 0; 
         
-        public void Init(IInputState input, IPlayerEntity motion, IBulletFactory bulletFactory, GameSettings settings)
+        public void Init(IInputState input, IPlayerEntity motion, IBulletFactory bulletFactory, 
+            MatchState matchState, GameSettings settings)
         {
             _input = input;
             _motion = motion;
             _settings = settings;
             _bulletFactory = bulletFactory;
+            _matchState = matchState;
         }
 
         void FixedUpdate()
         {
-            if (_input != null) //the price for Unity's initialization habits
+            if (_matchState != null && _matchState.State == IMatchState.Status.InProgress) //the price for Unity's initialization habits
             {
                 if (_input.Thrust)
                 {
@@ -48,10 +51,9 @@ namespace Asteroids
         
         public void HandleCollisionWithAsteroid(IAsteroidEntity asteroid)
         {
-            Debug.LogWarning("Player collided");
-            _motion.PlayDeathSequence(false);
+            _matchState.RegisterPlayerDeath();
+            _motion.PlayDeathSequence(_matchState.State == IMatchState.Status.Lose);
         }
-
     }
     
 }

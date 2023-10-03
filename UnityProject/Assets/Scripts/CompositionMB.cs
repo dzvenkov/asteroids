@@ -13,8 +13,10 @@ namespace Asteroids
         public BulletBehaviourMB BulletPrototype;
         public Transform MuzzleTransform;
         public Camera MainCamera;
+        public HUDViewMB HudView;
 
         private IAsteroidFactory _asteroidsFactory;
+        private MatchState _matchState;
         void Awake()
         {
             //This is the App's composition root
@@ -24,8 +26,12 @@ namespace Asteroids
             CreateAndSetupOverlayCameras(MainCamera, borderRect);   
             Debug.Log(borderRect);
             
-            //* Input
+            //* Misc parts
             IInputState inputState = new InputState();
+            _matchState = new MatchState(GameSettings.Settings);
+            
+            //* HUD
+            HudView.Init(_matchState);
             
             //* Bullets
             IBulletFactory bulletFactory = new BulletFactory(BulletPrototype, MuzzleTransform,
@@ -35,9 +41,10 @@ namespace Asteroids
             PlayerController.Init(inputState, 
                 playerEntity,
                 bulletFactory,
+                _matchState,
                 this.GameSettings.Settings);
             //* Asteroids
-            _asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsSettings, borderRect);
+            _asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsSettings, _matchState, borderRect);
             _asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);//test
         }
 
@@ -49,6 +56,10 @@ namespace Asteroids
                 {
                     _asteroidsFactory.SplitAsteroid(asteroid);
                 }
+            }
+            if (Keyboard.current.gKey.wasPressedThisFrame)
+            {
+                _matchState.CheatAddHealth();
             }
         }
 

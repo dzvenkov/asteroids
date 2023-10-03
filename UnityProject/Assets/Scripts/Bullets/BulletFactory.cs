@@ -44,8 +44,8 @@ public class BulletFactory : IBulletFactory
             Debug.LogWarning("bullets pool exhausted");
             result = Create();
         }
-        result.rigidbody.position = _muzzleTransform.position;
-        result.rigidbody.velocity = _settings.shotSpeed * _muzzleTransform.forward;
+        result.Rigidbody.position = _muzzleTransform.position;
+        result.Rigidbody.velocity = _settings.shotSpeed * _muzzleTransform.forward;
     }
 
     private BulletBehaviourMB Create()

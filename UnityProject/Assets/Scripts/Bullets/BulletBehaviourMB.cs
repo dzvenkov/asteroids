@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IBulletEntity { }//just a handle type
 public class BulletBehaviourMB : MonoBehaviour, IBulletEntity, IAsteroidCollisionHandler
 {
-    public Rigidbody rigidbody; //cached for speed
+    public Rigidbody Rigidbody; //cached for speed
 
     private Rect _borderRect;
     private IBulletFactory _parentFactory;

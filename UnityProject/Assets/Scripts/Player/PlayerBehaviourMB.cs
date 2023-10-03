@@ -56,8 +56,11 @@ public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity
         yield return new WaitForSeconds(3);
         transform.SetPositionAndRotation(new Vector3(_borderRect.center.x, 0, _borderRect.center.y), 
             Quaternion.identity);
-        Destroy(corpse);
-        if (!final) ModelRoot.SetActive(true);
+        if (!final)
+        {
+            Destroy(corpse);//leave last corpse hanging around for dramatic effect
+            ModelRoot.SetActive(true);
+        }
     }
 
     private void Update()
