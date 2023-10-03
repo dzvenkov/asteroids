@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace Asteroids
 {
@@ -20,9 +21,35 @@ namespace Asteroids
                 this.GameSettings.Settings);
             IAsteroidFactory asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsFactorySettings, borderRect);
             asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);
+
+            CreateAndSetupOverlayCameras(MainCamera, borderRect);   
         }
 
-        Rect CalculateBorders(Camera camera)
+        static void CreateAndSetupOverlayCameras(Camera mainCamera, Rect borderRect)
+        {
+            UniversalAdditionalCameraData mainCameraData = mainCamera.GetComponent<UniversalAdditionalCameraData>();
+            
+            Camera overlayCamera;
+            UniversalAdditionalCameraData overlayCameraData;
+            foreach (Vector3 offset in new Vector3[]
+                     {
+                         new Vector3(0, 0, borderRect.size.y),
+                         new Vector3(0, 0, -borderRect.size.y),
+                         new Vector3(borderRect.size.x, 0, 0),
+                         new Vector3(-borderRect.size.x, 0, 0),
+                     })
+            {
+                overlayCamera = Instantiate(mainCamera);
+                overlayCamera.transform.position += offset;
+                overlayCameraData = overlayCamera.GetComponent<UniversalAdditionalCameraData>();
+                overlayCameraData.renderPostProcessing = false;
+                overlayCameraData.renderType = CameraRenderType.Overlay;
+                mainCameraData.cameraStack.Add(overlayCamera);
+            }            
+        }
+        
+        
+        static Rect CalculateBorders(Camera camera)
         {
             //assumes camera is looking down
             Debug.Assert(Mathf.Approximately(camera.transform.forward.y, -1f));
