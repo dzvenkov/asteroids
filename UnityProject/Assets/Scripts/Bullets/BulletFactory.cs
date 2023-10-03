@@ -27,6 +27,7 @@ public class BulletFactory : IBulletFactory
         {
             var bullet = Create();
             bullet.gameObject.SetActive(false);
+            _pool.Push(bullet);
         }
     }
     

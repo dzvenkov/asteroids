@@ -26,6 +26,6 @@ MonoBehaviour:
       initialAngularVelocity: {x: 0.7, y: 1.5}
       initialSpeedBoostMultiplier: 3
     BulletSettings:
-      poolSize: 100
+      poolSize: 10
       shotSpeed: 30
       minShotInterval: 0.25

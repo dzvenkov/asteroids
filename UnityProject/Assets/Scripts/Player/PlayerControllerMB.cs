@@ -4,8 +4,9 @@ namespace Asteroids
 {
     /**
      * Reads input and interprets it into setups for motion and shooting;
+     * having this external from player behaviour allows for other sources of authority (e.g. cutscene)
      */
-    public class PlayerControllerMB : MonoBehaviour
+    public class PlayerControllerMB : MonoBehaviour, IAsteroidCollisionHandler
     {
         private IInputState _input;
         private IPlayerEntity _motion;
@@ -44,6 +45,13 @@ namespace Asteroids
                 }
             }
         }
+        
+        public void HandleCollisionWithAsteroid(IAsteroidEntity asteroid)
+        {
+            Debug.LogWarning("Player collided");
+            _motion.PlayDeathSequence(false);
+        }
+
     }
     
 }
