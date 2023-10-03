@@ -12,6 +12,7 @@ namespace Asteroids
     public class AsteroidFactory : IAsteroidFactory
     {
         private readonly Settings _settings;
+        private readonly Rect _borderRect;
 
         [Serializable]
         public class Settings
@@ -20,22 +21,34 @@ namespace Asteroids
             public Vector2 xRange = new Vector2(0.75f, 1.5f);
             public Vector2 yRange = new Vector2(0.15f, 0.25f);
             public Vector2 xRotRange = new Vector2(-5f, 5f);
-            public Vector3 yRotRange = new Vector3(-25f, 25f);
+            public Vector2 yRotRange = new Vector3(-25f, 25f);
             public float Compactness = 0.8f;
+            public Vector2 initialSpeedRange = new Vector2(1f, 2f);
+            public Vector2 initialAngularVelocity = new Vector2(1f, 2f);
         }
 
-        public AsteroidFactory(Settings settings)
+        public AsteroidFactory(Settings settings, Rect borderRect)
         {
             _settings = settings;
+            _borderRect = borderRect;
         }
 
         public void BuildAsteroid(int level, Vector2 position)
         {
-            var asteroid = BuildAsteroidImpl(level);
+            //build structure (combination of pairs of cubes)
+            var asteroid = BuildAsteroidStructure(level);
             asteroid.transform.position = new Vector3(position.x, 0, position.y);
+            //set initial motion
+            float angularVelocity = Random.Range(_settings.initialAngularVelocity.x, _settings.initialAngularVelocity.y);
+            Vector3 randomDir = Random.insideUnitSphere;
+            randomDir.y = 0;
+            randomDir.Normalize();
+            Vector3 velocity = Random.Range(_settings.initialSpeedRange.x, _settings.initialSpeedRange.y) * randomDir;
+            //run
+            asteroid.Run(angularVelocity, velocity);
         }
         
-        AsteroidStructureMB BuildAsteroidImpl(int level)
+        AsteroidStructureMB BuildAsteroidStructure(int level)
         {
             AsteroidStructureMB result = null;
             if (level == 0)
@@ -51,33 +64,35 @@ namespace Asteroids
             {
                 result = new GameObject()
                     .AddComponent<AsteroidStructureMB>();
-                result.left = BuildAsteroidImpl(level - 1);
-                result.left.transform.SetParent(result.transform);
-                result.right = BuildAsteroidImpl(level - 1);
-                result.right.transform.SetParent(result.transform);
+                result.Left = BuildAsteroidStructure(level - 1);
+                result.Left.transform.SetParent(result.transform);
+                result.Right = BuildAsteroidStructure(level - 1);
+                result.Right.transform.SetParent(result.transform);
                 //position the parts
                 float positioningOffset = _settings.Compactness*Mathf.Pow(2, (level + 1) / 2);
 
                 if (level % 2 == 1)
                 {
-                    result.left.transform.localPosition = new Vector3(-positioningOffset, 0, 0);
-                    result.right.transform.localPosition = new Vector3(positioningOffset, 0, 0);
+                    result.Left.transform.localPosition = new Vector3(-positioningOffset, 0, 0);
+                    result.Right.transform.localPosition = new Vector3(positioningOffset, 0, 0);
                 }
                 else
                 {
-                    result.left.transform.localPosition = new Vector3(0, 0, -positioningOffset);
-                    result.right.transform.localPosition = new Vector3(0, 0, positioningOffset);
+                    result.Left.transform.localPosition = new Vector3(0, 0, -positioningOffset);
+                    result.Right.transform.localPosition = new Vector3(0, 0, positioningOffset);
                 }
-                result.left.transform.localRotation = Quaternion.Euler(
+                result.Left.transform.localRotation = Quaternion.Euler(
                     Random.Range(_settings.xRotRange.x, _settings.xRotRange.y), 
                     Random.Range(_settings.yRotRange.x, _settings.yRotRange.y), 
                     Random.Range(_settings.xRotRange.x, _settings.xRotRange.y));
-                result.right.transform.localRotation = Quaternion.Euler(
+                result.Right.transform.localRotation = Quaternion.Euler(
                     Random.Range(_settings.xRotRange.x, _settings.xRotRange.y), 
                     Random.Range(_settings.yRotRange.x, _settings.yRotRange.y), 
                     Random.Range(_settings.xRotRange.x, _settings.xRotRange.y));
 
             }
+
+            result.Init(level, _borderRect);
             result.name = $"A_{level}_{Mathf.Abs(result.GetHashCode())}";
 
             return result;

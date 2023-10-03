@@ -18,7 +18,7 @@ namespace Asteroids
             PlayerController.Init(inputState, 
                 PlayerEntityMotion,
                 this.GameSettings.Settings);
-            IAsteroidFactory asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsFactorySettings);
+            IAsteroidFactory asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsFactorySettings, borderRect);
             asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);
         }
 
