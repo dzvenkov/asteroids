@@ -1,6 +1,8 @@
 using Asteroids;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class HUDViewMB : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class HUDViewMB : MonoBehaviour
     public TMP_Text ScoreText;
     public GameObject HeartsContainer;
     public GameObject HeartsPrototype;
+    public Button NewGameButton;
 
     private IMatchState _matchState;
     // Start is called before the first frame update
@@ -17,6 +20,7 @@ public class HUDViewMB : MonoBehaviour
         _matchState = matchState;
         Refresh();
         _matchState.OnUpdated += Refresh;
+        NewGameButton.onClick.AddListener(() => SceneManager.LoadScene(0));//reboot
     }
 
     private void OnDestroy()
@@ -33,6 +37,7 @@ public class HUDViewMB : MonoBehaviour
         ScoreText.text = $"SCORE: {_matchState.Score}";
         WinText.gameObject.SetActive(_matchState.State == IMatchState.Status.Win);
         LoseText.gameObject.SetActive(_matchState.State == IMatchState.Status.Lose);
+        NewGameButton.gameObject.SetActive(_matchState.State != IMatchState.Status.InProgress);
         while (_matchState.Hearts > HeartsContainer.transform.childCount)//instantiate missing
         {
             Instantiate(HeartsPrototype, HeartsContainer.transform);
