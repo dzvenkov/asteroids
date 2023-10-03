@@ -6,7 +6,7 @@ namespace Asteroids
      * Reads input and interprets it into setups for motion and shooting;
      * having this external from player behaviour allows for other sources of authority (e.g. cutscene)
      */
-    public class PlayerControllerMB : MonoBehaviour, IAsteroidCollisionHandler
+    public class PlayerControllerMB : MonoBehaviour, IAsteroidCollisionHandler, IPickupCollisionHandler
     {
         private IInputState _input;
         private IPlayerEntity _player;
@@ -56,6 +56,12 @@ namespace Asteroids
                 _matchState.RegisterPlayerDeath();
                 _player.PlayDeathSequence(_matchState.State == IMatchState.Status.Lose);
             }
+        }
+
+        public bool HandleCollisionWithPickup(IPickupEntity pickupEntity)
+        {
+            Debug.Log(pickupEntity.type);
+            return true;
         }
     }
     

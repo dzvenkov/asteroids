@@ -222,6 +222,10 @@ MonoBehaviour:
   MuzzleTransform: {fileID: 2033117450}
   MainCamera: {fileID: 330585545}
   HudView: {fileID: 1729452910}
+  PickupHealthProto: {fileID: 6487206359336808825, guid: e6e894bd2a20c4a8983dae3270f5cb43,
+    type: 3}
+  PickupShieldProto: {fileID: 3014427159857510416, guid: 9b27c4b90ccce43c9a8f4335d1cf110a,
+    type: 3}
 --- !u!4 &103651117
 Transform:
   m_ObjectHideFlags: 0
