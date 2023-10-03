@@ -8,14 +8,16 @@ namespace Asteroids
     public class PlayerControllerMB : MonoBehaviour
     {
         private IInputState _input;
-        private IPlayerBehaviour _motion;
+        private IPlayerEntity _motion;
         private GameSettings _settings;
+        private IBulletFactory _bulletFactory;
         
-        public void Init(IInputState input, IPlayerBehaviour motion, GameSettings settings)
+        public void Init(IInputState input, IPlayerEntity motion, IBulletFactory bulletFactory, GameSettings settings)
         {
             _input = input;
             _motion = motion;
             _settings = settings;
+            _bulletFactory = bulletFactory;
         }
 
         void FixedUpdate()
@@ -31,6 +33,11 @@ namespace Asteroids
                 if (_input.Rotation != 0f)
                 {
                     _motion.Rotate(_settings.BaseRotationRate*Time.fixedDeltaTime*_input.Rotation);
+                }
+
+                if (_input.Fire)
+                {
+                    _bulletFactory.Shoot();
                 }
             }
         }

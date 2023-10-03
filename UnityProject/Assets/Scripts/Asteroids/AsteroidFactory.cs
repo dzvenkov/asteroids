@@ -72,7 +72,7 @@ namespace Asteroids
                 result.Right.transform.SetParent(result.transform);
                 result.Right.enabled = false;
                 //position the parts
-                float positioningOffset = _settings.Compactness*Mathf.Pow(2, (level + 1) / 2);
+                float positioningOffset = _settings.compactness*Mathf.Pow(2, (level + 1) / 2);
 
                 if (level % 2 == 1)
                 {

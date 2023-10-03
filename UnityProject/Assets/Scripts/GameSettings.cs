@@ -10,6 +10,7 @@ namespace Asteroids
         public float BaseThrust = 100f;
         public float MaxSpeed = 30f;
         public AsteroidSettings AsteroidsSettings;
+        public BulletSettings BulletSettings;
     }
 
     [Serializable]
@@ -21,11 +22,18 @@ namespace Asteroids
         public Vector2 xRotRange = new Vector2(-5f, 5f);
         public Vector2 yRotRange = new Vector2(-25f, 25f);
         //affects packing of subparts
-        public float Compactness = 0.25f;
+        public float compactness = 0.25f;
         //initial movement randomized ranges
         public Vector2 initialSpeedRange = new Vector2(1f, 2f);
         public Vector2 initialAngularVelocity = new Vector2(0.7f, 1.5f);
         //speedup at start or split factor (helps with subparts not getting stuck with each other)
         public float initialSpeedBoostMultiplier = 2f;
+    }
+
+    [Serializable]
+    public class BulletSettings
+    {
+        public int poolSize = 100;
+        public float shotSpeed = 5;
     }
 }

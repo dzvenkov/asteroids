@@ -21,7 +21,10 @@ MonoBehaviour:
       yRange: {x: 0.15, y: 0.5}
       xRotRange: {x: -5, y: 5}
       yRotRange: {x: -25, y: 25}
-      Compactness: 0.25
+      compactness: 0.25
       initialSpeedRange: {x: 1, y: 2}
       initialAngularVelocity: {x: 0.7, y: 1.5}
       initialSpeedBoostMultiplier: 3
+    BulletSettings:
+      poolSize: 100
+      shotSpeed: 30

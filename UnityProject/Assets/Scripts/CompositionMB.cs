@@ -9,27 +9,34 @@ namespace Asteroids
     {
         public GameSettingsHolderSO GameSettings;
         public PlayerControllerMB PlayerController;
-        public PlayerBehaviourMB PlayerBehaviour;
+        public PlayerBehaviourMB playerEntity;
+        public BulletBehaviourMB BulletPrototype;
+        public Transform MuzzleTransform;
         public Camera MainCamera;
-
 
         private IAsteroidFactory _asteroidsFactory;
         void Awake()
         {
             //This is the App's composition root
-            //0. World - borders and cameras
+            
+            //* World - borders and cameras
             Rect borderRect = CalculateBorders(MainCamera);
             CreateAndSetupOverlayCameras(MainCamera, borderRect);   
             Debug.Log(borderRect);
             
+            //* Input
             IInputState inputState = new InputState();
             
-            //1. Player
-            PlayerBehaviour.Init(borderRect);
+            //* Bullets
+            IBulletFactory bulletFactory = new BulletFactory(BulletPrototype, MuzzleTransform,
+                GameSettings.Settings.BulletSettings, borderRect);
+            //* Player
+            playerEntity.Init(borderRect);
             PlayerController.Init(inputState, 
-                PlayerBehaviour,
+                playerEntity,
+                bulletFactory,
                 this.GameSettings.Settings);
-            //2. Asteroids
+            //* Asteroids
             _asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsSettings, borderRect);
             _asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);//test
         }
@@ -60,7 +67,7 @@ namespace Asteroids
                          new Vector3(-borderRect.size.x, 0, 0),
                      })
             {
-                overlayCamera = Instantiate(mainCamera);
+                overlayCamera = Instantiate(mainCamera, mainCamera.transform, true);
                 Destroy(overlayCamera.GetComponent<AudioListener>());
                 overlayCamera.transform.position += offset;
                 overlayCameraData = overlayCamera.GetComponent<UniversalAdditionalCameraData>();
