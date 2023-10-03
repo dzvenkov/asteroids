@@ -6,7 +6,7 @@ namespace Asteroids
 {
     public interface IAsteroidFactory
     {
-        IReadOnlyList<IAsteroidEntity> Asteroids { get; }
+        IReadOnlyList<IAsteroidEntity> Asteroids { get; } //all currently running asteroids
         void BuildAsteroid(int level, Vector2 position);
         void KillAsteroid(IAsteroidEntity asteroid);
         public void SplitAsteroid(IAsteroidEntity asteroidEntity);

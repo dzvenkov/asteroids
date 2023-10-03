@@ -17,8 +17,11 @@ namespace Asteroids
         void Awake()
         {
             //This is the App's composition root
+            //0. World - borders and cameras
             Rect borderRect = CalculateBorders(MainCamera);
+            CreateAndSetupOverlayCameras(MainCamera, borderRect);   
             Debug.Log(borderRect);
+            
             IInputState inputState = new InputState();
             
             //1. Player
@@ -29,7 +32,6 @@ namespace Asteroids
             //2. Asteroids
             _asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsSettings, borderRect);
             _asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);//test
-            CreateAndSetupOverlayCameras(MainCamera, borderRect);   
         }
 
         public void Update()
@@ -45,7 +47,7 @@ namespace Asteroids
 
         static void CreateAndSetupOverlayCameras(Camera mainCamera, Rect borderRect)
         {
-            //URP overlay cameras are used to 
+            //URP overlay cameras are used to properly render warping entities (so they are seen at both edges, not teleporting)
             UniversalAdditionalCameraData mainCameraData = mainCamera.GetComponent<UniversalAdditionalCameraData>();
             
             Camera overlayCamera;
