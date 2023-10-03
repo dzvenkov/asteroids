@@ -16,12 +16,13 @@ MonoBehaviour:
     BaseRotationRate: 270
     BaseThrust: 100
     MaxSpeed: 30
+    StartHearts: 3
     AsteroidsSettings:
-      xRange: {x: 0.5, y: 2}
+      xRange: {x: 0.4, y: 1.5}
       yRange: {x: 0.15, y: 0.5}
-      xRotRange: {x: -5, y: 5}
+      xRotRange: {x: -10, y: 10}
       yRotRange: {x: -25, y: 25}
-      compactness: 0.25
+      compactness: 0.2
       initialSpeedRange: {x: 1, y: 2}
       initialAngularVelocity: {x: 0.7, y: 1.5}
       initialSpeedBoostMultiplier: 3

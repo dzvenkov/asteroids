@@ -45,7 +45,11 @@ namespace Asteroids
                 this.GameSettings.Settings);
             //* Asteroids
             _asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsSettings, _matchState, borderRect);
-            _asteroidsFactory.BuildAsteroid(5, 10*Vector2.right);//test
+            
+            //* place initial asteroids
+            _asteroidsFactory.BuildAsteroid(4, 0.5f*borderRect.size.x/2*Vector2.right - 0.3f*borderRect.size.y/2*Vector2.up);//test
+            _asteroidsFactory.BuildAsteroid(4, -0.5f*borderRect.size.x/2*Vector2.right);//test
+            _asteroidsFactory.BuildAsteroid(3, 0.75f*borderRect.size.x/2*Vector2.right + 0.3f*borderRect.size.y/2*Vector2.up);//test
         }
 
         public void Update()

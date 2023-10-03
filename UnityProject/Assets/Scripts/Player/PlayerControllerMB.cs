@@ -9,18 +9,18 @@ namespace Asteroids
     public class PlayerControllerMB : MonoBehaviour, IAsteroidCollisionHandler
     {
         private IInputState _input;
-        private IPlayerEntity _motion;
+        private IPlayerEntity _player;
         private GameSettings _settings;
         private IBulletFactory _bulletFactory;
         private MatchState _matchState;
 
         private float _lastShotTime = 0; 
         
-        public void Init(IInputState input, IPlayerEntity motion, IBulletFactory bulletFactory, 
+        public void Init(IInputState input, IPlayerEntity player, IBulletFactory bulletFactory, 
             MatchState matchState, GameSettings settings)
         {
             _input = input;
-            _motion = motion;
+            _player = player;
             _settings = settings;
             _bulletFactory = bulletFactory;
             _matchState = matchState;
@@ -32,13 +32,13 @@ namespace Asteroids
             {
                 if (_input.Thrust)
                 {
-                    float maxSpeedT = 1f - _motion.speed / _settings.MaxSpeed;//thrust drops to zero as we get closer to max speed
-                    _motion.ApplyForce(maxSpeedT*_settings.BaseThrust*Time.fixedDeltaTime*_motion.forward);
+                    float maxSpeedT = 1f - _player.speed / _settings.MaxSpeed;//thrust drops to zero as we get closer to max speed
+                    _player.ApplyForce(maxSpeedT*_settings.BaseThrust*Time.fixedDeltaTime*_player.forward);
                 }
 
                 if (_input.Rotation != 0f)
                 {
-                    _motion.Rotate(_settings.BaseRotationRate*Time.fixedDeltaTime*_input.Rotation);
+                    _player.Rotate(_settings.BaseRotationRate*Time.fixedDeltaTime*_input.Rotation);
                 }
 
                 if (_input.Fire && Time.time > _lastShotTime + _settings.BulletSettings.minShotInterval)
@@ -51,8 +51,11 @@ namespace Asteroids
         
         public void HandleCollisionWithAsteroid(IAsteroidEntity asteroid)
         {
-            _matchState.RegisterPlayerDeath();
-            _motion.PlayDeathSequence(_matchState.State == IMatchState.Status.Lose);
+            if (_matchState.State == IMatchState.Status.InProgress)
+            {
+                _matchState.RegisterPlayerDeath();
+                _player.PlayDeathSequence(_matchState.State == IMatchState.Status.Lose);
+            }
         }
     }
     
