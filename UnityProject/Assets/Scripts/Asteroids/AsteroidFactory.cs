@@ -15,14 +15,16 @@ namespace Asteroids
     public class AsteroidFactory : IAsteroidFactory
     {
         private readonly AsteroidSettings _settings;
+        private readonly IPickupFactory _pickupFactory;
         private readonly MatchState _matchState;
         private readonly Rect _borderRect;
         private readonly List<IAsteroidEntity> _asteroids = new List<IAsteroidEntity>();
         public IReadOnlyList<IAsteroidEntity> Asteroids => _asteroids;
 
-        public AsteroidFactory(AsteroidSettings settings, MatchState matchState, Rect borderRect)
+        public AsteroidFactory(AsteroidSettings settings, IPickupFactory pickupFactory, MatchState matchState, Rect borderRect)
         {
             _settings = settings;
+            _pickupFactory = pickupFactory;
             _matchState = matchState;
             _borderRect = borderRect;
         }
@@ -46,13 +48,17 @@ namespace Asteroids
         {
             Debug.Assert(_asteroids.Contains(asteroid));
             _asteroids.Remove(asteroid);
-            //I created you so I can kill you
-            GameObject.Destroy((asteroid as AsteroidBehaviourMB).gameObject);
             _matchState.RegisterAsteroidKill(asteroid.level);
             if (_asteroids.Count == 0)
             {
                 _matchState.RegisterVictory();
             }
+            if (Random.Range(0f, 1f) < _settings.probabilityToSpawnPickupOnKill)
+            {
+                _pickupFactory.CreatePickup((PickupType)Random.Range(0, 2), asteroid.position);
+            }
+            //I created you so I can kill you
+            GameObject.Destroy((asteroid as AsteroidBehaviourMB).gameObject);
         }
 
         private AsteroidBehaviourMB BuildAsteroidStructure(int level)

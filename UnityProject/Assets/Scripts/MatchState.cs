@@ -1,5 +1,4 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace Asteroids
@@ -27,7 +26,8 @@ namespace Asteroids
         public int Hearts { get; private set; }
         public int Score { get; private set; }
 
-        private float _shieldStartTime = -1000;
+        private float _shieldStartTime = -1;
+        private float _shieldDuration = 1;
 
         public event Action OnUpdated;
 
@@ -38,7 +38,7 @@ namespace Asteroids
         }
 
         public float ShieldNormalizedDurationLeft
-            => Mathf.Clamp01(1 - (Time.time - _shieldStartTime) / _settings.ShieldDurationSec);
+            => Mathf.Clamp01(1 - (Time.time - _shieldStartTime) / _shieldDuration);
 
         public void RegisterPlayerDeath()
         {
@@ -49,6 +49,13 @@ namespace Asteroids
                 State = IMatchState.Status.Lose;
             }
             OnUpdated?.Invoke();
+        }
+
+        public void RegisterPlayerRespawn()
+        {
+            //activate shield
+            _shieldStartTime = Time.time;
+            _shieldDuration = _settings.ShieldAfterRespawnDurationSec;
         }
 
         public void RegisterAsteroidKill(int level)
@@ -73,6 +80,7 @@ namespace Asteroids
             {
                 case PickupType.Shield:
                     _shieldStartTime = Time.time;
+                    _shieldDuration = _settings.ShieldPickupDurationSec;
                     break;
                 case PickupType.Heart:
                     Hearts++;

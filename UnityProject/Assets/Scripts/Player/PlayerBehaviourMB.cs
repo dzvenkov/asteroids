@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public interface IPlayerEntity
 {
@@ -7,7 +9,7 @@ public interface IPlayerEntity
     float speed { get; }
     void Rotate(float degrees);
     void ApplyForce(Vector2 direction);
-    void PlayDeathSequence(bool final);
+    void PlayDeathSequence(bool final, Action onComplete);
     void SetShieldVFX(bool enabled);
 }
 
@@ -42,12 +44,12 @@ public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity
         _cachedRigidbody.AddForce(new Vector3(direction.x, 0, direction.y), ForceMode.VelocityChange);
     }
 
-    public void PlayDeathSequence(bool final)
+    public void PlayDeathSequence(bool final, Action onComplete)
     {
-        StartCoroutine(DeathSequence(final));
+        StartCoroutine(DeathSequence(final, onComplete));
     }
 
-    IEnumerator DeathSequence(bool final)
+    IEnumerator DeathSequence(bool final, Action onComplete)
     {
         ModelRoot.SetActive(false); 
         var corpse = Instantiate(Corpse, ModelRoot.transform.position, ModelRoot.transform.rotation);
@@ -63,6 +65,7 @@ public class PlayerBehaviourMB : MonoBehaviour, IPlayerEntity
             Destroy(corpse);//leave last corpse hanging around for dramatic effect
             ModelRoot.SetActive(true);
         }
+        onComplete?.Invoke();
     }
 
     public void SetShieldVFX(bool enabled)

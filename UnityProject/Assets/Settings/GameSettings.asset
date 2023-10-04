@@ -16,8 +16,9 @@ MonoBehaviour:
     BaseRotationRate: 270
     BaseThrust: 100
     MaxSpeed: 25
-    StartHearts: 3
-    ShieldDurationSec: 5
+    StartHearts: 5
+    ShieldPickupDurationSec: 5
+    ShieldAfterRespawnDurationSec: 2.5
     AsteroidsSettings:
       xRange: {x: 0.4, y: 1.5}
       yRange: {x: 0.15, y: 0.5}
@@ -27,6 +28,7 @@ MonoBehaviour:
       initialSpeedRange: {x: 1, y: 2}
       initialAngularVelocity: {x: 0.7, y: 1.5}
       initialSpeedBoostMultiplier: 3
+      probabilityToSpawnPickupOnKill: 0.15
     BulletSettings:
       poolSize: 10
       shotSpeed: 30

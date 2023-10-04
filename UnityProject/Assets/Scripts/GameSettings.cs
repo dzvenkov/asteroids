@@ -10,7 +10,8 @@ namespace Asteroids
         public float BaseThrust = 100f;
         public float MaxSpeed = 30f;
         public int StartHearts = 3;
-        public float ShieldDurationSec = 5;
+        public float ShieldPickupDurationSec = 5;
+        public float ShieldAfterRespawnDurationSec = 2.5f;
         public AsteroidSettings AsteroidsSettings;
         public BulletSettings BulletSettings;
     }
@@ -30,6 +31,7 @@ namespace Asteroids
         public Vector2 initialAngularVelocity = new Vector2(0.7f, 1.5f);
         //speedup at start or split factor (helps with subparts not getting stuck with each other)
         public float initialSpeedBoostMultiplier = 2f;
+        public float probabilityToSpawnPickupOnKill = 0.1f;
     }
 
     [Serializable]

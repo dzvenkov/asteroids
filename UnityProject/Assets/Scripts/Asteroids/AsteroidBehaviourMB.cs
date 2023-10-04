@@ -4,6 +4,7 @@ namespace Asteroids
 {
     public interface IAsteroidEntity
     {
+        Vector3 position { get; }
         int level { get; }
         void DealDamage();
     }
@@ -20,6 +21,7 @@ namespace Asteroids
         private IAsteroidFactory _parentFactory;
 
         public int level { get; private set; }
+        public Vector3 position => _cachedTransform.position;//TODO temp
         public void Init(int level, Rect borderRect, IAsteroidFactory parentFactory)
         {
             this.level = level;

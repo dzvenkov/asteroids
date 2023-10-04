@@ -445,7 +445,6 @@ Transform:
   m_Children:
   - {fileID: 2033117450}
   - {fileID: 1636060215}
-  - {fileID: 1242174266}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &194200958
@@ -1322,7 +1321,7 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 194200957}
+  m_Father: {fileID: 1636060215}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &1242174267
 SphereCollider:
@@ -2073,6 +2072,7 @@ Transform:
   - {fileID: 368672634}
   - {fileID: 1398544868}
   - {fileID: 1092148582}
+  - {fileID: 1242174266}
   m_Father: {fileID: 194200957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1678057071

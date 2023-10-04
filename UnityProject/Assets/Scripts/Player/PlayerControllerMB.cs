@@ -58,7 +58,8 @@ namespace Asteroids
                 if (_matchState.ShieldNormalizedDurationLeft < 0.0001f)
                 {
                     _matchState.RegisterPlayerDeath();
-                    _player.PlayDeathSequence(_matchState.State == IMatchState.Status.Lose);
+                    bool final = _matchState.State == IMatchState.Status.Lose;
+                    _player.PlayDeathSequence(final, () => {if (!final) _matchState.RegisterPlayerRespawn();});
                 }
                 else
                 {

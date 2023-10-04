@@ -28,7 +28,6 @@ namespace Asteroids
             //* World - borders and cameras
             Rect borderRect = CalculateBorders(MainCamera);
             CreateAndSetupOverlayCameras(MainCamera, borderRect);   
-            Debug.Log(borderRect);
             
             //* Misc parts
             IInputState inputState = new InputState();
@@ -54,15 +53,19 @@ namespace Asteroids
                 _matchState,
                 this.GameSettings.Settings);
             //* Asteroids
-            _asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsSettings, _matchState, borderRect);
+            _asteroidsFactory = new AsteroidFactory(GameSettings.Settings.AsteroidsSettings, 
+                pickupFactory,_matchState, borderRect);
             
-            //* place initial asteroids and pickups (hardcoded for now)
+            //* place initial asteroids (hardcoded for now)
             _asteroidsFactory.BuildAsteroid(4, 0.5f*borderRect.size.x/2*Vector2.right - 0.3f*borderRect.size.y/2*Vector2.up);
             _asteroidsFactory.BuildAsteroid(4, -0.5f*borderRect.size.x/2*Vector2.right);
             _asteroidsFactory.BuildAsteroid(3, 0.75f*borderRect.size.x/2*Vector2.right + 0.3f*borderRect.size.y/2*Vector2.up);
             
+            /*
+            //test pickups
             pickupFactory.CreatePickup(PickupType.Heart, -0.5f*borderRect.size.x/2*Vector2.right - 0.3f*borderRect.size.y/2*Vector2.up);
             pickupFactory.CreatePickup(PickupType.Shield, -0.5f*borderRect.size.x/2*Vector2.right + 0.3f*borderRect.size.y/2*Vector2.up);
+            */
         }
 
         public void Update()
