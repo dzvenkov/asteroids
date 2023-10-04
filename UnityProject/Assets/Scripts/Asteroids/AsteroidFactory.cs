@@ -53,7 +53,7 @@ namespace Asteroids
             {
                 _matchState.RegisterVictory();
             }
-            if (Random.Range(0f, 1f) < _settings.probabilityToSpawnPickupOnKill)
+            if (asteroid.level != 0 && Random.Range(0f, 1f) < _settings.probabilityToSpawnPickupOnSplit)
             {
                 _pickupFactory.CreatePickup((PickupType)Random.Range(0, 2), asteroid.position);
             }

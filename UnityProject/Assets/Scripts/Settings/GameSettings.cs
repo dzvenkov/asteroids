@@ -31,7 +31,7 @@ namespace Asteroids
         public Vector2 initialAngularVelocity = new Vector2(0.7f, 1.5f);
         //speedup at start or split factor (helps with subparts not getting stuck with each other)
         public float initialSpeedBoostMultiplier = 2f;
-        public float probabilityToSpawnPickupOnKill = 0.1f;
+        public float probabilityToSpawnPickupOnSplit = 0.15f;
     }
 
     [Serializable]
